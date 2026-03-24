@@ -1,0 +1,146 @@
+/* auth-styles.css — Modern Glass + Animated Hearts Theme */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap");
+
+:root {
+  --accent: #ff4da9;
+  --accent2: #ff79bf;
+  --text-dark: #444;
+  --glass-bg: rgba(255, 255, 255, 0.32);
+  --glass-border: rgba(255, 255, 255, 0.45);
+}
+
+* {
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  min-height: 100vh;
+  background: linear-gradient(135deg, #ff9ccf 0%, #ffe2f5 100%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  overflow-x: hidden;
+}
+
+/* Floating heart animation */
+.heart-floating {
+  position: fixed;
+  font-size: 36px;
+  opacity: 0.2;
+  animation: floatUp 6s infinite ease-in-out;
+}
+@keyframes floatUp {
+  from { transform: translateY(40px); }
+  to { transform: translateY(-60px); }
+}
+
+/* Glass Card */
+.form-container, .profile-container {
+  width: 100%;
+  max-width: 460px;
+  background: var(--glass-bg);
+  backdrop-filter: blur(14px);
+  border: 1px solid var(--glass-border);
+  border-radius: 18px;
+  padding: 38px 28px;
+  box-shadow: 0 18px 50px rgba(0,0,0,0.18);
+  animation: fadeIn 0.7s ease forwards;
+}
+
+@keyframes fadeIn {
+  from { opacity:0; transform:translateY(18px); }
+  to { opacity:1; transform:translateY(0); }
+}
+
+h1 {
+  text-align:center;
+  font-size:2rem;
+  margin-bottom:22px;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  -webkit-background-clip: text;
+  color: transparent;
+}
+
+/* Input Fields */
+.form-group {
+  margin-bottom: 16px;
+}
+input {
+  width: 100%;
+  padding: 13px 14px;
+  border-radius: 12px;
+  border: 1px solid rgba(255,255,255,0.7);
+  background: rgba(255,255,255,0.55);
+  font-size: 1rem;
+  transition: .3s;
+  outline: none;
+}
+input:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 12px rgba(255, 77, 169, 0.4);
+}
+
+/* Button */
+button.cta {
+  width: 100%;
+  padding: 13px;
+  border: none;
+  border-radius: 12px;
+  background: linear-gradient(90deg, var(--accent), var(--accent2));
+  color: white;
+  font-weight: 600;
+  font-size: 1.15rem;
+  cursor: pointer;
+  transition: transform .25s, box-shadow .25s;
+  box-shadow: 0 12px 24px rgba(255, 77, 169, 0.35);
+}
+button.cta:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 40px rgba(255, 77, 169, 0.5);
+}
+
+/* Link */
+.alt-link {
+  text-align:center;
+  margin-top:16px;
+}
+.alt-link a {
+  color: var(--accent);
+  font-weight:600;
+  text-decoration:none;
+}
+
+/* Profile Page */
+.profile-info {
+  text-align:center;
+  margin-bottom:20px;
+}
+.profile-info p {
+  font-size: 1.1rem;
+  opacity: 0.8;
+}
+.stats-box {
+  margin-top: 20px;
+  padding: 16px;
+  border-radius: 14px;
+  background: rgba(255,255,255,0.55);
+  border: 1px solid rgba(255,255,255,0.8);
+  text-align:center;
+  font-size:1.05rem;
+}
+
+/* Table */
+table {
+  width: 100%;
+  margin-top: 18px;
+  border-collapse: collapse;
+}
+th, td {
+  padding: 10px;
+  border-bottom: 1px solid rgba(255,255,255,0.35);
+}
+th { font-weight: 600; }

@@ -1,0 +1,47 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Leaderboard | Heart Quest</title>
+  <link rel="stylesheet" href="leaderboard.css">
+</head>
+<body>
+
+   <header class="navbar">
+    <h1 class="logo">❤️ Heart Quest</h1>
+    <nav>
+      <a href="index.html" class="active">Home</a>
+      <a href="about.html">About</a>
+      <a href="profile.html">My Profile</a>
+      <a href="leaderboard.html">Leaderboard</a>
+      <a href="login.html">Login</a>
+    </nav>
+  </header>
+
+<div class="leaderboard-container">
+  <h1 class="page-title">🌟 Global Leaderboard 🌟</h1>
+
+  <div class="filters">
+    <button class="filter-btn active" data-filter="all">All Time</button>
+    <button class="filter-btn" data-filter="week">This Week</button>
+    <button class="filter-btn" data-filter="today">Today</button>
+  </div>
+
+  <table class="leaderboard-table">
+    <thead>
+      <tr>
+        <th>Rank</th>
+        <th>Player</th>
+        <th>Score</th>
+        <th>Difficulty</th>
+        <th>Date</th>
+      </tr>
+    </thead>
+    <tbody id="leaderboardBody"></tbody>
+  </table>
+</div>
+
+<script src="leaderboard.js"></script>
+</body>
+</html>

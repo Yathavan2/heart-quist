@@ -1,0 +1,26 @@
+[
+  {
+    "username": "yathu",
+    "password": "1234",
+    "email": "jdyathuu90@gmail.com",
+    "birthdate": "2003-01-03"
+  },
+  {
+    "username": "kavi",
+    "password": "1234",
+    "email": "ka@gmail.com",
+    "birthdate": "2025-09-09"
+  },
+  {
+    "username": "muhu",
+    "password": "1234",
+    "email": "mh@gmail.com",
+    "birthdate": "2025-10-29"
+  },{
+
+  "username": "shya",
+    "password": "shya",
+    "email": "sl@gmail.com",
+    "birthdate": "2025-10-29"
+  }
+]

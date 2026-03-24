@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Your Profile | Heart Quest</title>
+  <link rel="stylesheet" href="profile.css">
+</head>
+<body>
+
+<div id="particleLayer"></div>
+
+<div class="profile-container">
+  <div id="avatarCircle">?</div>
+  <h1>Your Profile 💝</h1>
+
+  <div class="profile-info">
+    <p><strong>Name:</strong> <span id="playerName">-</span></p>
+    <p><strong>Email:</strong> <span id="playerEmail">Not provided</span></p>
+  </div>
+
+  <div class="stats-box">
+    <p>Games Played: <span id="gamesPlayed">0</span></p>
+    <p>Average Score: <span id="avgScore">0</span></p>
+    <p>Last Played: <span id="lastPlayed">-</span></p>
+  </div>
+
+  <table>
+    <thead>
+      <tr><th>#</th><th>Score</th><th>Difficulty</th><th>Date</th></tr>
+    </thead>
+    <tbody id="gameHistoryTable"></tbody>
+  </table>
+
+  <button class="cta" onclick="window.location.href='index.html'">Back to Home</button>
+</div>
+
+<script src="profile.js"></script>
+</body>
+</html>

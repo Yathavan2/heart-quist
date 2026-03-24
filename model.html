@@ -1,0 +1,476 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Heart Quist — Visual Mockup</title>
+
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Marcellus&family=Cinzel+Decorative:wght@700&display=swap" rel="stylesheet">
+
+<style>
+  :root{
+    --gold:#caa24f;
+    --parchment-1:#fff7ea;
+    --parchment-2:#efe0c2;
+    --accent:#8b4b38;
+    --soft-pink: rgba(255,180,190,0.95);
+  }
+
+  html,body{
+    height:100%;
+    margin:0;
+    background: radial-gradient(ellipse at 20% 10%, rgba(120,150,200,0.12) 0%, transparent 40%),
+                radial-gradient(ellipse at 90% 20%, rgba(50,80,140,0.12) 0%, transparent 30%),
+                linear-gradient(#0d2230 0%, #081823 45%, #07141a 100%);
+    font-family: "Marcellus", serif;
+    color:#f5efe6;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+    overflow:hidden;
+  }
+
+  /* subtle fog */
+  .fog {
+    position: absolute;
+    inset:0;
+    background: radial-gradient(50% 40% at 50% 10%, rgba(30,60,90,0.20), rgba(0,0,0,0) 35%),
+                linear-gradient(180deg, rgba(20,40,60,0.15), rgba(0,0,0,0.55) 70%);
+    pointer-events:none;
+    z-index:0;
+  }
+
+  /* moon and castle silhouette (SVG) */
+  .scene {
+    position:absolute;
+    inset:0;
+    z-index:0;
+    display:flex;
+    align-items:flex-start;
+    justify-content:center;
+  }
+  .moon {
+    position:absolute;
+    top:6%;
+    left:50%;
+    transform:translateX(-50%);
+    width:280px;
+    height:280px;
+    border-radius:50%;
+    background: radial-gradient(circle at 30% 25%, #eaf7ff 0%, #d4f0ff 12%, rgba(255,255,255,0.05) 14%, rgba(255,255,255,0) 30%),
+                linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+    filter:blur(6px);
+    box-shadow: 0 0 60px 18px rgba(180,220,255,0.05);
+    z-index:0;
+    mix-blend-mode: screen;
+  }
+
+  /* castle silhouette */
+  .castle {
+    position:absolute;
+    top:18%;
+    width:760px;
+    height:420px;
+    background:
+      /* towers and shapes drawn with gradients */
+      linear-gradient(to top, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.0) 55%);
+    mask-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="760" height="420" viewBox="0 0 760 420"><g fill="%23030a0f"><path d="M60 400 L70 240 L110 240 L120 400 Z"/><path d="M140 400 L170 150 L205 150 L226 400 Z"/><path d="M260 400 L285 240 L325 240 L340 400 Z"/><path d="M380 400 L420 110 L450 110 L485 400 Z"/><path d="M515 400 L540 200 L575 200 L595 400 Z"/><path d="M640 400 L655 260 L690 260 L705 400 Z"/><rect x="110" y="310" width="440" height="90" /></g></svg>');
+    mask-size:contain;
+    mask-repeat:no-repeat;
+    mask-position:center;
+    left:50%;
+    transform:translateX(-50%);
+    opacity:0.6;
+    filter: blur(1px) brightness(0.9);
+    z-index:0;
+    pointer-events:none;
+  }
+
+  /* ground stones */
+  .ground {
+    position:absolute;
+    bottom:0;
+    width:100%;
+    height:180px;
+    background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(2,7,8,0.8) 100%);
+    z-index:0;
+  }
+
+  /* hearts container (floating hearts will be appended here) */
+  #hearts {
+    position:absolute;
+    inset:0;
+    z-index:1;
+    pointer-events:none;
+  }
+
+  /* central layout containing two scrolls */
+  .stage {
+    position:relative;
+    z-index:2;
+    height:100%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:48px;
+    padding:48px;
+    box-sizing:border-box;
+  }
+
+  /* Scroll parchment panel base */
+  .scroll {
+    width:420px;
+    max-width:42vw;
+    min-width:300px;
+    background:
+      linear-gradient(180deg, rgba(255,255,240,0.98), rgba(245,233,210,0.95)),
+      linear-gradient(135deg, rgba(210,180,140,0.06), rgba(255,255,255,0.02));
+    border-radius:22px;
+    padding:34px 36px 48px 36px;
+    box-shadow:
+      0 8px 30px rgba(8,14,20,0.7),
+      inset 0 2px 0 rgba(255,255,255,0.6),
+      0 0 18px rgba(200,140,120,0.06);
+    border: 3px solid rgba(180,140,80,0.15);
+    position:relative;
+    overflow:visible;
+    color:#3e2316;
+    transform:translateY(6px);
+  }
+
+  /* curled top and bottom scroll edges using pseudo elements */
+  .scroll::before,
+  .scroll::after {
+    content:'';
+    position:absolute;
+    left:50%;
+    transform:translateX(-50%);
+    width:160%;
+    height:48px;
+    background: linear-gradient(180deg, rgba(210,175,120,0.92), rgba(230,200,150,0.75));
+    border-radius:50% 50% 0 0 / 70% 70% 0 0;
+    box-shadow: inset 0 -6px 12px rgba(0,0,0,0.12);
+    z-index:3;
+  }
+  .scroll::before { /* top curl */
+    top:-26px;
+  }
+  .scroll::after { /* bottom curl - flipped */
+    bottom:-26px;
+    transform:translateX(-50%) rotate(180deg);
+  }
+
+  /* wooden/rope edges on sides (decorative) */
+  .scroll .side-decor {
+    position:absolute;
+    top:26px;
+    bottom:26px;
+    width:18px;
+    left:-10px;
+    background: linear-gradient(180deg, rgba(90,60,40,0.9), rgba(110,80,60,0.6));
+    border-radius:8px;
+    box-shadow: inset 0 3px 0 rgba(255,255,255,0.06);
+    transform:skewY(-6deg);
+    z-index:4;
+  }
+  .scroll .side-decor.right {
+    right:-10px;
+    left:auto;
+    transform:skewY(6deg);
+  }
+
+  /* Title / logo */
+  .title {
+    font-family: 'Cinzel Decorative', serif;
+    font-size:36px;
+    color:var(--gold);
+    text-shadow: 0 2px 0 rgba(0,0,0,0.45), 0 0 14px rgba(255,220,160,0.06);
+    text-align:center;
+    margin:2px 0 8px 0;
+    letter-spacing:1px;
+  }
+
+  /* input style (visual only) */
+  .field {
+    display:block;
+    width:100%;
+    margin:10px 0 4px 0;
+    padding:10px 12px;
+    border-radius:8px;
+    border:2px solid rgba(120,90,60,0.18);
+    background:linear-gradient(180deg, rgba(255,255,255,0.92), rgba(250,240,220,0.9));
+    color:#3a281e;
+    font-size:14px;
+    box-shadow: inset 0 2px 0 rgba(255,255,255,0.6);
+  }
+
+  .label {
+    font-size:13px;
+    color:#4a3328;
+    margin-top:12px;
+    display:block;
+    letter-spacing:0.2px;
+  }
+
+  /* round heart action button like in your image */
+  .heart-cta {
+    margin:22px auto 0;
+    width:96px;
+    height:96px;
+    border-radius:50%;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background: radial-gradient(circle at 40% 35%, #ffd6db 0%, #ff7b95 45%, #b83656 100%);
+    box-shadow: 0 8px 20px rgba(200,60,120,0.25), 0 0 18px rgba(255,120,160,0.18), inset 0 -6px 12px rgba(0,0,0,0.18);
+    border:6px solid rgba(255,255,255,0.12);
+    margin-bottom:6px;
+    position:relative;
+  }
+  .heart-cta::after{
+    content:'';
+    position:absolute;
+    inset:0;
+    border-radius:50%;
+    box-shadow:0 0 28px rgba(255,150,180,0.65);
+    opacity:0.9;
+  }
+  .heart-cta .heart-emoji {
+    font-size:44px;
+    transform:translateY(-2px);
+    filter: drop-shadow(0 2px 6px rgba(160,30,80,0.45));
+  }
+
+  /* sign/button label */
+  .fake-btn {
+    display:block;
+    width:86%;
+    margin:8px auto 0;
+    text-align:center;
+    padding:8px 10px;
+    border-radius:18px;
+    background:linear-gradient(180deg, rgba(180,125,100,0.12), rgba(0,0,0,0.02));
+    color:#2d1b13;
+    font-size:14px;
+    border:1px solid rgba(120,80,50,0.06);
+  }
+
+  /* decorative small hearts around scrolls using pseudo elements */
+  .scroll .glow-top {
+    position:absolute;
+    top:-36px;
+    right:36px;
+    font-size:22px;
+    filter: drop-shadow(0 0 10px rgba(255,190,200,0.45));
+    z-index:6;
+    opacity:0.95;
+  }
+
+  /* small runes on pillars (fake) */
+  .pillar {
+    position:absolute;
+    top:18%;
+    width:42px;
+    height:260px;
+    background: linear-gradient(180deg, rgba(12,30,18,0.12), rgba(0,0,0,0.35));
+    left:10%;
+    border-radius:12px;
+    box-shadow: inset 0 2px 6px rgba(0,0,0,0.2);
+    z-index:0;
+    transform:translateY(30px);
+  }
+  .pillar.right {
+    left:auto;
+    right:10%;
+  }
+
+  /* tiny vignette hearts inside */
+  .micro-heart {
+    position: absolute;
+    width: 72px;
+    height: 72px;
+    right: -32px;
+    bottom: -28px;
+    font-size:28px;
+    filter: drop-shadow(0 2px 8px rgba(255,160,180,0.6));
+    opacity:0.95;
+    z-index:3;
+  }
+
+  /* subtle floating twinkle dots */
+  .twinkle {
+    position:absolute;
+    width:4px;
+    height:4px;
+    border-radius:50%;
+    background: radial-gradient(circle at 40% 30%, #fff 0%, #ffd 50%, rgba(255,255,255,0) 70%);
+    filter: blur(0.6px);
+    opacity:0.88;
+    z-index:1;
+  }
+
+  /* responsiveness */
+  @media (max-width:980px){
+    .stage { gap:18px; padding:28px; }
+    .scroll { width:360px; }
+    .castle { width:520px; top:12%; height:300px; }
+  }
+  @media (max-width:700px){
+    .stage { flex-direction:column; align-items:center; justify-content:center; gap:28px; }
+    .scroll { width:86%; max-width:520px; }
+    .moon { top:2%; width:200px; height:200px; }
+  }
+
+</style>
+</head>
+<body>
+
+<div class="scene" aria-hidden="true">
+  <div class="moon"></div>
+  <div class="castle"></div>
+</div>
+<div class="fog"></div>
+
+<!-- ground -->
+<div class="ground" aria-hidden="true"></div>
+
+<!-- decorative pillars -->
+<div class="pillar" style="left:6%; transform:scale(1.05) translateY(40px) rotate(-2deg)"></div>
+<div class="pillar right" style="right:6%; transform:scale(1.05) translateY(40px) rotate(2deg)"></div>
+
+<!-- floating hearts container -->
+<div id="hearts"></div>
+
+<!-- main stage -->
+<main class="stage" role="main" aria-label="Heart Quist mockup">
+  <!-- left scroll (login style) -->
+  <section class="scroll" aria-label="Login scroll panel">
+    <div class="side-decor" aria-hidden="true"></div>
+    <div class="side-decor right" aria-hidden="true"></div>
+
+    <div class="glow-top" aria-hidden="true">💫</div>
+
+    <div style="text-align:center; margin-top:6px;">
+      <div class="title">Heart Quist</div>
+      <div style="font-size:13px; color:#5c3b2e; margin-bottom:8px;">Sign in to your fabled account</div>
+    </div>
+
+    <label class="label">USERNAME</label>
+    <div class="field" style="height:38px; display:flex; align-items:center; padding-left:12px;">arthur_thebrave</div>
+
+    <label class="label">PASSWORD</label>
+    <div class="field" style="height:38px; display:flex; align-items:center; padding-left:12px;">••••••••</div>
+
+    <div style="display:flex; flex-direction:column; align-items:center;">
+      <div class="heart-cta" aria-hidden="true">
+        <div class="heart-emoji">💗</div>
+      </div>
+      <div class="fake-btn">Don't have an account? Sign Up</div>
+    </div>
+
+    <div class="micro-heart">💖</div>
+  </section>
+
+  <!-- right scroll (signup style) -->
+  <section class="scroll" aria-label="Signup scroll panel">
+    <div class="side-decor" aria-hidden="true"></div>
+    <div class="side-decor right" aria-hidden="true"></div>
+
+    <div style="text-align:center; margin-top:6px;">
+      <div class="title" style="font-size:26px;">FORGE YOUR HEART</div>
+      <div style="font-size:12px; color:#5c3b2e; margin-bottom:6px;">Create a new place in the glimmering realms</div>
+    </div>
+
+    <label class="label">CHOOSE USERNAME</label>
+    <div class="field" style="height:36px; display:flex; align-items:center; padding-left:12px;">(your name)</div>
+
+    <label class="label">CREATE PASSWORD</label>
+    <div class="field" style="height:36px; display:flex; align-items:center; padding-left:12px;">(secret)</div>
+
+    <label class="label">CONFIRM PASSWORD</label>
+    <div class="field" style="height:36px; display:flex; align-items:center; padding-left:12px;">(repeat)</div>
+
+    <label class="label">EMAIL</label>
+    <div class="field" style="height:36px; display:flex; align-items:center; padding-left:12px;">(you@realm.com)</div>
+
+    <div style="display:flex; gap:10px; align-items:center; margin-top:10px;">
+      <div style="flex:0 0 28px; height:28px; border-radius:6px; border:2px solid rgba(120,90,60,0.12); background:linear-gradient(180deg,#fff,#f5efe0)"></div>
+      <div style="font-size:13px; color:#4a3328;">I agree to Witness of the Eldar</div>
+    </div>
+
+    <div style="display:flex; flex-direction:column; align-items:center;">
+      <div class="heart-cta" aria-hidden="true" style="margin-top:14px;">
+        <div class="heart-emoji">💞</div>
+      </div>
+      <div class="fake-btn">FORGE YOUR HEART</div>
+    </div>
+
+    <div class="micro-heart" style="left:-30px; right:auto; bottom:-28px;">💛</div>
+  </section>
+</main>
+
+<!-- floating tiny twinkles (decorative) -->
+<div class="twinkle" style="left:12%; top:16%; opacity:0.9; width:5px; height:5px"></div>
+<div class="twinkle" style="left:26%; top:12%; opacity:0.75"></div>
+<div class="twinkle" style="left:78%; top:22%; opacity:0.8"></div>
+<div class="twinkle" style="left:86%; top:30%; opacity:0.6"></div>
+<div class="twinkle" style="left:46%; top:8%; opacity:0.7"></div>
+
+<script>
+  // Floating heart particles (purely decorative)
+  (function spawnHearts(){
+    const container = document.getElementById('hearts');
+
+    function rand(min, max){ return Math.random()*(max-min)+min; }
+
+    const heartTemplates = ['💖','💗','💛','💞','💕','💘'];
+
+    function createOne(){
+      const el = document.createElement('div');
+      el.className = 'floating';
+      const size = rand(14,48);
+      const left = rand(-6,106);
+      const heart = heartTemplates[Math.floor(Math.random()*heartTemplates.length)];
+      el.textContent = heart;
+      Object.assign(el.style,{
+        position:'absolute',
+        left: left + 'vw',
+        bottom: '-4vh',
+        fontSize: size + 'px',
+        opacity: rand(0.6,0.98),
+        transform: 'translateY(0) rotate(' + rand(-30,30) + 'deg)',
+        pointerEvents:'none',
+        filter:'drop-shadow(0 4px 14px rgba(255,140,160,0.35))',
+        zIndex:2
+      });
+
+      container.appendChild(el);
+
+      // animate via Web Animations API when available
+      const dur = rand(6000,14000);
+      const horizShift = (rand(-20,20)) + 'vw';
+      if (el.animate){
+        el.animate([
+          { transform: 'translateY(0) translateX(0) rotate('+rand(-45,45)+'deg)', opacity:el.style.opacity },
+          { transform: 'translateY(-120vh) translateX('+horizShift+') rotate('+rand(20,140)+'deg)', opacity:0 }
+        ], { duration: dur, easing:'linear' }).onfinish = ()=> el.remove();
+      } else {
+        // fallback simple interval
+        const id = setInterval(()=>{
+          const b = parseFloat(el.style.bottom);
+          if (b > 120) { el.remove(); clearInterval(id); }
+          el.style.bottom = (b + 0.3) + 'vh';
+        }, 20);
+      }
+    }
+
+    // spawn initial batch
+    for(let i=0;i<12;i++){ setTimeout(createOne, i*180); }
+
+    // continuous spawn
+    setInterval(()=> createOne(), 420);
+  })();
+</script>
+
+</body>
+</html>

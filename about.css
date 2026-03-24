@@ -1,0 +1,124 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap");
+
+:root {
+  --accent: #ff4d86;
+  --bg: #fff5f8;
+  --light: #ffe6ee;
+  --card-bg: rgba(255, 255, 255, 0.95);
+  --shadow: 0 8px 20px rgba(229, 31, 99, 0.12);
+  --rounded: 20px;
+  --text: #333;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  background: linear-gradient(to bottom, var(--bg), var(--light));
+  color: var(--text);
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* Navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 40px;
+  background: var(--card-bg);
+  box-shadow: var(--shadow);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  border-radius: var(--rounded);
+}
+.logo {
+  color: var(--accent);
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+nav a {
+  text-decoration: none;
+  color: var(--text);
+  margin: 0 12px;
+  font-weight: 500;
+  transition: 0.3s;
+}
+nav a:hover,
+nav a.active {
+  color: var(--accent);
+}
+
+/* Main content */
+.about-container {
+  max-width: 900px;
+  margin: 80px auto;
+  background: var(--card-bg);
+  border-radius: var(--rounded);
+  padding: 40px;
+  box-shadow: var(--shadow);
+  text-align: center;
+}
+
+.about-container h2 {
+  color: var(--accent);
+  margin-bottom: 20px;
+}
+
+.about-container p {
+  line-height: 1.6;
+  margin-bottom: 16px;
+}
+
+.btn {
+  padding: 12px 30px;
+  border-radius: var(--rounded);
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: 0.3s;
+}
+.btn.primary {
+  background: var(--accent);
+  color: #fff;
+}
+.btn.primary:hover {
+  transform: scale(1.05);
+}
+
+/* Floating hearts */
+#heart-background {
+  position: fixed;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 0;
+}
+.heart-wrapper {
+  position: absolute;
+  animation: floatUp 6s linear infinite;
+  opacity: 0.8;
+}
+@keyframes floatUp {
+  0% { transform: translateY(100vh); opacity: 1; }
+  100% { transform: translateY(-10vh); opacity: 0; }
+}
+
+/* Animations */
+.fade-in { animation: fadeIn 1.2s ease; }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(30px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Footer */
+footer {
+  text-align: center;
+  padding: 20px;
+  font-size: 0.9rem;
+}

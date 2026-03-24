@@ -1,0 +1,131 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Heart Quest — Heart Hunter</title>
+  <link rel="stylesheet" href="game.css" />
+</head>
+<body>
+   <div id="heart-background"></div>
+  <header class="topbar">
+    <div class="brand">
+      <span class="heart">❤️</span>
+      <h1>Heart Quest</h1>
+    </div>
+    <div class="hud">
+      <div class="hud-item">Score: <span id="score">0</span></div>
+      <div class="hud-item">Hints: <span id="hints">3</span></div>
+      <div class="hud-item">Lives: <span id="lives">💔💔💔</span></div>
+    </div>
+  </header>
+
+  <!-- HOME / START (user said they already have a home page — still included) -->
+  <section id="home" class="screen center">
+    <h2>Embark on Your Journey</h2>
+    <div class="level-buttons">
+      <button class="pill" data-level="easy">♥ Whispers (Easy)</button>
+      <button class="pill" data-level="medium">♥ Melodies (Medium)</button>
+      <button class="pill" data-level="hard">♥ Symphonies (Hard)</button>
+    </div>
+    <button id="startBtn" class="cta">Start Echoes</button>
+  </section>
+
+  <!-- GAME SCREEN -->
+  <section id="game" class="screen hidden">
+    <div class="left-panel">
+      <div class="chapter-title" id="chapterTitle">Whispers: Chapter</div>
+
+      <div id="questionCard" class="card">
+        <div class="question-meta">
+          <span id="progressText">Fragment: 0/0</span>
+          <span id="questionNumber"></span>
+        </div>
+        <div id="questionText" class="question">Question will appear here</div>
+        <div id="answers" class="answers"></div>
+        <div class="controls">
+          <button id="hintBtn" class="ghost">Use Hint</button>
+          <button id="nextBtn" class="cta ghost">Next Question</button>
+        </div>
+        <div id="feedback" class="feedback"></div>
+      </div>
+    </div>
+
+    <div class="right-panel">
+      <div id="boardContainer" class="board card"></div>
+      <div id="gifBox" class="gif-box hidden"></div>
+    </div>
+  </section>
+
+  <!-- END / LEADERBOARD -->
+  <section id="end" class="screen hidden center">
+    <h2 id="endTitle">Chapter Complete</h2>
+    <p id="endSummary"></p>
+    <div class="leaderboard card" id="leaderboard">
+      <h3>Leaderboard</h3>
+      <ol id="leaderboardList"></ol>
+    </div>
+    <div class="end-actions">
+      <button onclick="location.reload()" class="cta">Play Again</button>
+    </div>
+  </section>
+
+  <!-- Audio elements -->
+  <audio id="correctAudio"></audio>
+  <audio id="wrongAudio"></audio>
+  <audio id="bgMusic" loop></audio>
+
+  <script src="game.js"></script>
+
+
+
+  <!-- Music Toggle Button -->
+<button id="musicToggle">🎵</button>
+
+<script>
+const musicToggle = document.getElementById("musicToggle");
+const FREESOUND_KEY = "fiIxGN4e0DNsDZx20fj6qJIBH11A6NXNOScP6pbD";
+let bgMusic = new Audio();
+bgMusic.loop = true;
+bgMusic.volume = 0.45;
+
+// Load a random FreeSound track
+async function loadFreeSoundTrack() {
+  try {
+    const response = await fetch(`https://freesound.org/apiv2/search/text/?query=ambient&fields=previews&token=${FREESOUND_KEY}`);
+    const data = await response.json();
+    if (data.results && data.results.length > 0) {
+      const track = data.results[Math.floor(Math.random() * data.results.length)];
+      bgMusic.src = track.previews["Platform Game Theme Loop 3.wav"];
+    }
+  } catch (err) {
+    console.error("FreeSound track failed:", err);
+    // Fallback static music
+    bgMusic.src = "https://cdn.pixabay.com/download/audio/2023/01/26/audio_9c0c8d91f0.mp3?filename=fantasy-ambient-13477.mp3";
+  }
+}
+
+// Start music if previously on
+loadFreeSoundTrack().then(() => {
+  if (localStorage.getItem("heartquest_music") === "on") {
+    bgMusic.play().catch(()=>{}); // autoplay may require user interaction
+    musicToggle.classList.add("active");
+  }
+});
+
+// Toggle music button
+musicToggle.addEventListener("click", () => {
+  if (bgMusic.paused) {
+    bgMusic.play().catch(()=>{}); 
+    localStorage.setItem("heartquest_music", "on");
+    musicToggle.classList.add("active");
+  } else {
+    bgMusic.pause();
+    localStorage.setItem("heartquest_music", "off");
+    musicToggle.classList.remove("active");
+  }
+});
+</script>
+
+</body>
+</html>

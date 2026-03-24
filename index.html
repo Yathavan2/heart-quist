@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Heart Quest</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <!-- Floating Hearts Background -->
+  <div id="heart-background"></div>
+
+  <!-- Navbar -->
+  <header class="navbar">
+    <h1 class="logo">❤️ Heart Quest</h1>
+    <nav>
+      <a href="index.html" class="active">Home</a>
+      <a href="about.html">About</a>
+      <a href="profile.html">My Profile</a>
+      <a href="leaderboard.html">Leaderboard</a>
+      <a href="login.html">Login</a>
+    </nav>
+  </header>
+
+  <!-- Hero Section -->
+  <section class="hero">
+    <div class="hero-text fade-in">
+      <h2>Unlock the Puzzle</h2>
+      <p>Dive into the mystery of hearts and conquer the ultimate challenge.</p>
+      <p>Follow the whispers of your heart — each riddle hides a secret.</p>
+      <form action="game.html">
+        <button type="submit" class="btn primary" id="startGameBtn">
+          💖 One heart, endless mysteries.<br>Start Game
+        </button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Music Toggle Button -->
+  <button id="musicToggle" title="Toggle Background Music">🎵</button>
+
+  <!-- Footer -->
+  <footer>
+    <p>© 2025 Heart Quest. Designed & Developed by <b>JD Yathu</b>.</p>
+  </footer>
+
+  <!-- JS Files -->
+  <script src="script.js"></script>
+  <script src="about.js"></script>
+  <script>
+    // Background Music Control
+    const musicToggle = document.getElementById("musicToggle");
+    const FREESOUND_KEY = "fiIxGN4e0DNsDZx20fj6qJIBH11A6NXNOScP6pbD";
+    let bgMusic = new Audio();
+    bgMusic.loop = true;
+    bgMusic.volume = 0.45;
+
+    async function loadFreeSoundTrack() {
+      try {
+        const response = await fetch(`https://freesound.org/apiv2/search/text/?query=romantic+ambient&fields=previews&token=${FREESOUND_KEY}`);
+        const data = await response.json();
+        if (data.results?.length) {
+          const track = data.results[Math.floor(Math.random() * data.results.length)];
+          bgMusic.src = track.previews["preview-hq-mp3"] || "https://cdn.pixabay.com/download/audio/2023/01/26/audio_9c0c8d91f0.mp3";
+        }
+      } catch {
+        bgMusic.src = "https://cdn.pixabay.com/download/audio/2023/01/26/audio_9c0c8d91f0.mp3";
+      }
+    }
+
+    loadFreeSoundTrack().then(() => {
+      if (localStorage.getItem("heartquest_music") === "on") {
+        bgMusic.play().catch(() => {});
+        musicToggle.classList.add("active");
+      }
+    });
+
+    musicToggle.addEventListener("click", () => {
+      if (bgMusic.paused) {
+        bgMusic.play().catch(() => {});
+        localStorage.setItem("heartquest_music", "on");
+        musicToggle.classList.add("active");
+      } else {
+        bgMusic.pause();
+        localStorage.setItem("heartquest_music", "off");
+        musicToggle.classList.remove("active");
+      }
+    });
+  </script>
+</body>
+</html>
