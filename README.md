@@ -133,12 +133,6 @@ heart-quist/
 
 ---
 
-## 📸 Preview
-
-> *(Add screenshots of the game, result screen, and leaderboard here)*
-
----
-
 ## 🎯 Purpose
 
 HeartQuest was built to strengthen front-end development skills and explore full-stack web concepts, including:
